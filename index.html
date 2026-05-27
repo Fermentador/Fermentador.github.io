@@ -4,398 +4,257 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Lo siento, Ainhoa ❤️</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300;1,400&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  :root {
-    --rose: #ff2d55;
-    --rose-soft: #ff6b8a;
-    --rose-pale: #ffc1cc;
-    --gold: #e8c97e;
-    --bg: #08060f;
-  }
+html, body {
+  width: 100%; height: 100%;
+  background: #08060f;
+  font-family: 'Montserrat', sans-serif;
+  -webkit-tap-highlight-color: transparent;
+  overflow: hidden;
+}
 
-  html, body {
-    width: 100%; height: 100%;
-    overflow: hidden;
-    background: var(--bg);
-    font-family: 'Montserrat', sans-serif;
-    -webkit-tap-highlight-color: transparent;
-  }
+canvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 0;
+}
 
-  canvas {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    z-index: 0;
-  }
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 20px;
+  padding-bottom: max(env(safe-area-inset-bottom, 0px) + 24px, 32px);
+}
 
-  /* ── OVERLAY CENTRADO ── */
-  .overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 10;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-end;
-    padding-bottom: max(env(safe-area-inset-bottom, 0px) + 24px, 32px);
-    pointer-events: none;
-  }
+.card {
+  width: min(94vw, 400px);
+  max-height: 90vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  background: rgba(8, 6, 15, 0.78);
+  border: 1px solid rgba(255, 90, 130, 0.3);
+  border-radius: 24px;
+  padding: 30px 24px 26px;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  animation: riseUp 1.2s cubic-bezier(0.16,1,0.3,1) both;
+  pointer-events: all;
+}
+.card::-webkit-scrollbar { display: none; }
 
-  .card {
-    width: min(92vw, 420px);
-    background: rgba(8, 6, 15, 0.72);
-    border: 1px solid rgba(255, 90, 130, 0.35);
-    border-radius: 28px;
-    padding: 28px 26px 24px;
-    backdrop-filter: blur(18px) saturate(1.4);
-    -webkit-backdrop-filter: blur(18px) saturate(1.4);
-    animation: riseUp 1.4s cubic-bezier(0.16, 1, 0.3, 1) both;
-    box-shadow: 0 0 60px rgba(255, 45, 85, 0.18), 0 20px 60px rgba(0,0,0,0.6);
-  }
+.title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 9vw, 2.6rem);
+  font-weight: 300;
+  font-style: italic;
+  color: #ffc1cc;
+  text-align: center;
+  line-height: 1.15;
+  margin-bottom: 20px;
+}
 
-  .title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(2rem, 9vw, 2.8rem);
-    font-weight: 300;
-    font-style: italic;
-    color: var(--rose-pale);
-    text-align: center;
-    letter-spacing: 0.03em;
-    line-height: 1.15;
-    margin-bottom: 6px;
-    animation: fadeShimmer 4s ease infinite alternate;
-  }
+.divider {
+  width: 40px; height: 1px;
+  background: linear-gradient(90deg, transparent, #ff6b8a, transparent);
+  margin: 0 auto 22px;
+}
 
-  .subtitle {
-    font-family: 'Montserrat', sans-serif;
-    font-size: clamp(0.65rem, 2.8vw, 0.78rem);
-    font-weight: 300;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: rgba(255, 193, 204, 0.55);
-    text-align: center;
-    margin-bottom: 22px;
-  }
+.message {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.1rem, 4.8vw, 1.25rem);
+  font-weight: 300;
+  line-height: 1.8;
+  color: rgba(255, 215, 225, 0.9);
+  text-align: center;
+}
 
-  .divider {
-    width: 48px;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--rose-soft), transparent);
-    margin: 0 auto 22px;
-    animation: pulseWidth 2.5s ease infinite;
-  }
+.message em {
+  font-style: italic;
+  color: #ffc1cc;
+}
 
-  .message {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(1.05rem, 4.5vw, 1.22rem);
-    font-weight: 400;
-    line-height: 1.75;
-    color: rgba(255, 220, 230, 0.92);
-    text-align: center;
-    margin-bottom: 20px;
-    letter-spacing: 0.01em;
-  }
+.hearts {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 22px 0 18px;
+  font-size: 1.2rem;
+}
+.hearts span { display: inline-block; animation: hb 1.4s ease infinite; }
+.hearts span:nth-child(2) { animation-delay: 0.25s; font-size: 1.5rem; }
+.hearts span:nth-child(3) { animation-delay: 0.5s; }
 
-  .message em {
-    font-style: italic;
-    color: var(--rose-pale);
-  }
+.signature {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 300;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 107, 138, 0.5);
+  text-align: center;
+}
 
-  .quote-block {
-    border-left: 2px solid rgba(232, 201, 126, 0.45);
-    margin: 0 8px 20px;
-    padding: 10px 14px;
-    background: rgba(232, 201, 126, 0.05);
-    border-radius: 0 8px 8px 0;
-  }
-
-  .quote-text {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(0.88rem, 3.8vw, 1rem);
-    font-style: italic;
-    font-weight: 300;
-    color: rgba(232, 201, 126, 0.85);
-    line-height: 1.65;
-    text-align: left;
-  }
-
-  .quote-author {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 0.62rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: rgba(232, 201, 126, 0.45);
-    margin-top: 6px;
-    text-align: right;
-  }
-
-  .signature {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 0.72rem;
-    font-weight: 300;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: rgba(255, 107, 138, 0.55);
-    text-align: center;
-    margin-top: 4px;
-  }
-
-  .hearts-row {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-    margin: 14px 0 18px;
-  }
-
-  .hrt {
-    font-size: 1.1rem;
-    display: inline-block;
-    animation: heartbeat 1.4s ease infinite;
-  }
-  .hrt:nth-child(2) { animation-delay: 0.2s; font-size: 1.4rem; }
-  .hrt:nth-child(3) { animation-delay: 0.4s; }
-
-  @keyframes riseUp {
-    from { opacity: 0; transform: translateY(60px) scale(0.97); }
-    to   { opacity: 1; transform: translateY(0) scale(1); }
-  }
-  @keyframes heartbeat {
-    0%, 100% { transform: scale(1); }
-    40%       { transform: scale(1.22); }
-    60%       { transform: scale(1.1); }
-  }
-  @keyframes fadeShimmer {
-    from { color: var(--rose-pale); }
-    to   { color: #ffd6e0; }
-  }
-  @keyframes pulseWidth {
-    0%, 100% { width: 48px; opacity: 0.7; }
-    50%       { width: 80px; opacity: 1; }
-  }
+@keyframes riseUp {
+  from { opacity: 0; transform: translateY(50px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes hb {
+  0%,100% { transform: scale(1); }
+  40%      { transform: scale(1.25); }
+}
 </style>
 </head>
 <body>
-
 <canvas id="c"></canvas>
 
 <div class="overlay">
   <div class="card">
     <div class="title">Lo siento, Ainhoa</div>
-    <div class="subtitle">de Ángel, con todo el corazón</div>
     <div class="divider"></div>
-
     <p class="message">
-      Sé que te hice daño y eso me duele más de lo que puedo expresar.<br><br>
-      No lo hice con malas intenciones — simplemente <em>no pensé</em>, y eso no es excusa suficiente. Me arrepiento de verdad, no de palabra.<br><br>
-      Eres la chica más guapa, la más especial, la chica de mis sueños. Y a veces soy torpe siendo quien debería cuidarte mejor.<br><br>
-      <em>Lo siento por todo. Por cómo soy a veces. Por el daño que te hago sin querer.</em><br><br>
-      Te quiero, Ainhoa. Muchísimo.
+      No lo hice con mala intención.<br>
+      Simplemente no pensé, y eso no es excusa.<br><br>
+      Me arrepiento de verdad.<br><br>
+      Eres guapísima, eres la chica de mis sueños.<br>
+      Y a veces soy un desastre siendo quien debería cuidarte.<br><br>
+      <em>Lo siento por todo, por como soy a veces y por el daño que te hago.</em><br><br>
+      Te quiero muchísimo.
     </p>
-
-    <div class="quote-block">
-      <p class="quote-text">"Sé que te fallé, y no hay palabras que borren el daño, pero mi arrepentimiento es sincero. No quiero justificarme, solo pedirte perdón desde lo más profundo de mi alma."</p>
-      <p class="quote-author">— lo que siente Ángel</p>
+    <div class="hearts">
+      <span>🤍</span><span>❤️</span><span>🤍</span>
     </div>
-
-    <div class="hearts-row">
-      <span class="hrt">🤍</span>
-      <span class="hrt">❤️</span>
-      <span class="hrt">🤍</span>
-    </div>
-
     <div class="signature">· siempre tuyo, Ángel ·</div>
   </div>
 </div>
 
 <script type="importmap">
-{
-  "imports": {
-    "three": "https://unpkg.com/three@0.128.0/build/three.module.js",
-    "three/addons/": "https://unpkg.com/three@0.128.0/examples/jsm/"
-  }
-}
+{"imports":{"three":"https://unpkg.com/three@0.128.0/build/three.module.js","three/addons/":"https://unpkg.com/three@0.128.0/examples/jsm/"}}
 </script>
-
 <script type="module">
 import * as THREE from 'three';
 import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
-import { RenderPass }     from 'three/addons/postprocessing/RenderPass.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
 
 const W = window.innerWidth, H = window.innerHeight;
-const isMobile = W < 600;
-const dpr = Math.min(window.devicePixelRatio, isMobile ? 1.5 : 2);
+const mob = W < 600;
+const dpr = Math.min(window.devicePixelRatio, mob ? 1 : 1.5);
 
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x08060f);
-scene.fog = new THREE.FogExp2(0x08060f, 0.014);
+scene.fog = new THREE.FogExp2(0x08060f, 0.016);
 
-const camera = new THREE.PerspectiveCamera(42, W / H, 0.1, 500);
-camera.position.set(0, 0.15, isMobile ? 3.2 : 2.6);
-camera.lookAt(0, 0.05, 0);
+const cam = new THREE.PerspectiveCamera(44, W/H, 0.1, 300);
+cam.position.set(0, 0.1, mob ? 3.4 : 2.8);
 
-const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('c'), antialias: !isMobile });
+const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('c'), antialias: !mob, powerPreference: 'low-power' });
 renderer.setSize(W, H);
 renderer.setPixelRatio(dpr);
 renderer.toneMapping = THREE.ReinhardToneMapping;
-renderer.toneMappingExposure = 1.15;
+renderer.toneMappingExposure = 1.1;
 
-// Bloom
 const composer = new EffectComposer(renderer);
-composer.addPass(new RenderPass(scene, camera));
-const bloom = new UnrealBloomPass(new THREE.Vector2(W * dpr, H * dpr), isMobile ? 0.7 : 0.9, 0.4, 0.15);
+composer.addPass(new RenderPass(scene, cam));
+const bloom = new UnrealBloomPass(new THREE.Vector2(W*dpr, H*dpr), mob ? 0.6 : 0.85, 0.4, 0.18);
 composer.addPass(bloom);
 
-// Lights
-scene.add(new THREE.AmbientLight(0x1a0a12));
-const main = new THREE.DirectionalLight(0xffaacc, 1.1); main.position.set(1,2,2); scene.add(main);
-const back = new THREE.PointLight(0xff4477, 0.55); back.position.set(-1, 0.5, -1.5); scene.add(back);
-const fill = new THREE.PointLight(0xff88aa, 0.45); fill.position.set(0.5, 0.2, 1.8); scene.add(fill);
-const dyn  = new THREE.PointLight(0xff2255, 0.65); dyn.position.set(0.3, 0.6, 1.2); scene.add(dyn);
+scene.add(new THREE.AmbientLight(0x110812));
+const L1 = new THREE.DirectionalLight(0xffaabb, 1); L1.position.set(1,2,2); scene.add(L1);
+const L2 = new THREE.PointLight(0xff3366, 0.6); L2.position.set(-1,0.5,-1.5); scene.add(L2);
+const L3 = new THREE.PointLight(0xff88aa, 0.45); L3.position.set(0.4,0.2,1.8); scene.add(L3);
 
-// Heart curve
-function hpt(t, s = 0.07) {
-  const x = 16 * Math.pow(Math.sin(t), 3);
-  const y = 13*Math.cos(t) - 5*Math.cos(2*t) - 2*Math.cos(3*t) - Math.cos(4*t);
-  return new THREE.Vector3(x*s, y*s, 0);
+function hpt(t, s=0.07) {
+  return new THREE.Vector3(
+    16*Math.pow(Math.sin(t),3)*s,
+    (13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t))*s,
+    0
+  );
 }
+
 const pts = [];
-for (let i = 0; i <= 130; i++) pts.push(hpt((i/130)*Math.PI*2));
+for (let i=0; i<=120; i++) pts.push(hpt(i/120*Math.PI*2));
 const curve = new THREE.CatmullRomCurve3(pts, true, 'centripetal', 0.5);
 
-const tubeGeo = new THREE.TubeGeometry(curve, isMobile ? 160 : 220, 0.055, 10, true);
-const tubeMat = new THREE.MeshStandardMaterial({
-  color: 0xff2255, emissive: 0x440011, emissiveIntensity: 0.5,
-  roughness: 0.25, metalness: 0.8
-});
-const heart = new THREE.Mesh(tubeGeo, tubeMat);
+const seg = mob ? 130 : 190;
+const geo = new THREE.TubeGeometry(curve, seg, 0.056, mob ? 8 : 10, true);
+const mat = new THREE.MeshStandardMaterial({ color: 0xff2255, emissive: 0x440011, emissiveIntensity: 0.5, roughness: 0.26, metalness: 0.78 });
+const heart = new THREE.Mesh(geo, mat);
 heart.rotation.set(-0.08, 0, 0.1);
 
-const wireMat = new THREE.MeshBasicMaterial({ color: 0xff88aa, wireframe: true, transparent: true, opacity: 0.12 });
-const wire = new THREE.Mesh(tubeGeo, wireMat);
-
 const grp = new THREE.Group();
-grp.add(heart, wire);
+grp.add(heart);
 scene.add(grp);
 
-// Extra heart dots
-const exPos = [];
-for (let i = 0; i < 250; i++) {
-  const p = hpt(Math.random()*Math.PI*2, 0.072);
-  p.z = (Math.random()-0.5)*0.18;
-  exPos.push(p.x, p.y, p.z);
-}
-const exGeo = new THREE.BufferGeometry();
-exGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(exPos), 3));
-grp.add(new THREE.Points(exGeo, new THREE.PointsMaterial({ color: 0xff77aa, size: 0.011, blending: THREE.AdditiveBlending })));
-
-// Particles
-const N = isMobile ? 500 : 800;
-const pPos = new Float32Array(N*3);
-const pVel = [];
-for (let i = 0; i < N; i++) {
-  const r = 1.0 + Math.random()*0.85;
-  const th = Math.random()*Math.PI*2, ph = Math.acos(2*Math.random()-1);
-  const x = r*Math.sin(ph)*Math.cos(th), y = r*Math.sin(ph)*Math.sin(th)*0.88, z = r*Math.cos(ph)*0.75;
-  pPos[i*3]=x; pPos[i*3+1]=y+0.08; pPos[i*3+2]=z;
-  pVel.push({ off: Math.random()*Math.PI*2 });
+// Partículas reducidas en móvil
+const N = mob ? 300 : 600;
+const pArr = new Float32Array(N*3);
+const pOff = new Float32Array(N);
+for (let i=0; i<N; i++) {
+  const r = 1.0+Math.random()*0.85, th=Math.random()*Math.PI*2, ph=Math.acos(2*Math.random()-1);
+  pArr[i*3]=r*Math.sin(ph)*Math.cos(th);
+  pArr[i*3+1]=r*Math.sin(ph)*Math.sin(th)*0.88+0.08;
+  pArr[i*3+2]=r*Math.cos(ph)*0.75;
+  pOff[i]=Math.random()*Math.PI*2;
 }
 const pGeo = new THREE.BufferGeometry();
-pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
-const pMat = new THREE.PointsMaterial({ color: 0xff88bb, size: 0.022, transparent: true, blending: THREE.AdditiveBlending, opacity: 0.65 });
-const particles = new THREE.Points(pGeo, pMat);
-scene.add(particles);
-const origPos = pPos.slice();
+pGeo.setAttribute('position', new THREE.BufferAttribute(pArr.slice(), 3));
+const pMat = new THREE.PointsMaterial({ color: 0xff88bb, size: 0.02, transparent: true, blending: THREE.AdditiveBlending, opacity: 0.6 });
+scene.add(new THREE.Points(pGeo, pMat));
+const pOrig = pArr.slice();
 
-// Stars
-const sPos = new Float32Array((isMobile ? 700 : 1200)*3);
-for (let i = 0; i < sPos.length; i+=3) {
-  sPos[i]   = (Math.random()-0.5)*180;
-  sPos[i+1] = (Math.random()-0.5)*90;
-  sPos[i+2] = (Math.random()-0.5)*70 - 35;
+// Estrellas
+const sN = mob ? 500 : 900;
+const sArr = new Float32Array(sN*3);
+for (let i=0; i<sN*3; i+=3) {
+  sArr[i]=(Math.random()-.5)*150; sArr[i+1]=(Math.random()-.5)*80; sArr[i+2]=(Math.random()-.5)*60-30;
 }
 const sGeo = new THREE.BufferGeometry();
-sGeo.setAttribute('position', new THREE.BufferAttribute(sPos, 3));
-const stars = new THREE.Points(sGeo, new THREE.PointsMaterial({ color: 0xffffff, size: 0.045, transparent: true, opacity: 0.5 }));
+sGeo.setAttribute('position', new THREE.BufferAttribute(sArr, 3));
+const stars = new THREE.Points(sGeo, new THREE.PointsMaterial({ color: 0xffffff, size: 0.04, transparent: true, opacity: 0.45 }));
 scene.add(stars);
 
-// Ring
-const ringGeo = new THREE.BufferGeometry();
-const rPos = [];
-for (let i = 0; i < 160; i++) {
-  const a = (i/160)*Math.PI*2;
-  rPos.push(Math.cos(a)*0.92, Math.sin(a)*0.92*1.18, 0);
-}
-ringGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(rPos), 3));
-const ring = new THREE.Points(ringGeo, new THREE.PointsMaterial({ color: 0xff88cc, size: 0.016, transparent: true, blending: THREE.AdditiveBlending }));
-grp.add(ring);
-
-// Halo
-const halo = new THREE.Mesh(
-  new THREE.RingGeometry(0.82, 1.18, 32),
-  new THREE.MeshBasicMaterial({ color: 0xff4466, side: THREE.DoubleSide, transparent: true, opacity: 0.15, blending: THREE.AdditiveBlending })
-);
-halo.rotation.x = Math.PI/2;
-grp.add(halo);
-
-// Resize
 window.addEventListener('resize', () => {
-  const w = window.innerWidth, h = window.innerHeight;
-  camera.aspect = w/h; camera.updateProjectionMatrix();
+  const w=window.innerWidth, h=window.innerHeight;
+  cam.aspect=w/h; cam.updateProjectionMatrix();
   renderer.setSize(w,h); composer.setSize(w,h);
 });
 
-// Animate
 function animate() {
   requestAnimationFrame(animate);
   const t = performance.now()/1000;
 
-  // Color
-  const r = 0.88+Math.sin(t*0.65)*0.22, g = 0.1+Math.sin(t*1.1+2)*0.22, b = 0.35+Math.sin(t*1.4+1)*0.28;
-  tubeMat.color.setRGB(r,g,b);
-  tubeMat.emissiveIntensity = 0.45+Math.sin(t*1.8)*0.18;
-  dyn.color.setHSL(0.95+Math.sin(t*0.5)*0.04, 1, 0.55);
-  dyn.intensity = 0.55+Math.sin(t*1.1)*0.28;
+  mat.color.setRGB(0.88+Math.sin(t*.65)*.2, 0.1+Math.sin(t*1.1+2)*.2, 0.35+Math.sin(t*1.4+1)*.25);
+  mat.emissiveIntensity = 0.45+Math.sin(t*1.8)*.16;
 
-  // Heartbeat
-  const s = 1+Math.abs(Math.sin(t*6.2))*0.042;
+  const s = 1+Math.abs(Math.sin(t*6.2))*.04;
   grp.scale.setScalar(s);
+  grp.rotation.y = Math.sin(t*.19)*.46;
+  grp.rotation.x = Math.sin(t*.16)*.08;
 
-  // Rotation
-  grp.rotation.y = Math.sin(t*0.19)*0.48;
-  grp.rotation.x = Math.sin(t*0.16)*0.09;
-  grp.rotation.z = Math.sin(t*0.22)*0.05;
-
-  // Particles
   const pa = pGeo.attributes.position.array;
-  for (let i = 0; i < N; i++) {
-    pa[i*3]   = origPos[i*3]   + Math.sin(t*0.8+pVel[i].off)*0.019;
-    pa[i*3+1] = origPos[i*3+1] + Math.cos(t*0.6+pVel[i].off)*0.019;
-    pa[i*3+2] = origPos[i*3+2] + Math.sin(t*0.7+pVel[i].off*1.3)*0.016;
+  for (let i=0; i<N; i++) {
+    pa[i*3]   = pOrig[i*3]   + Math.sin(t*.8+pOff[i])*.018;
+    pa[i*3+1] = pOrig[i*3+1] + Math.cos(t*.6+pOff[i])*.018;
+    pa[i*3+2] = pOrig[i*3+2] + Math.sin(t*.7+pOff[i]*1.3)*.015;
   }
   pGeo.attributes.position.needsUpdate = true;
-  pMat.color.setHSL(0.94+Math.sin(t)*0.04, 0.9, 0.65);
 
-  // Ring & halo
-  ring.rotation.z += 0.009;
-  halo.rotation.z += 0.004;
-  halo.material.opacity = 0.18+Math.sin(t*2.8)*0.09;
+  stars.rotation.y += .0003;
+  L2.intensity = 0.5+Math.sin(t*.9)*.22;
+  L3.intensity = 0.4+Math.sin(t*1.3)*.18;
 
-  // Stars
-  stars.rotation.y += 0.0004;
-
-  // Lights
-  fill.intensity = 0.45+Math.sin(t*1.3)*0.18;
-  back.intensity = 0.45+Math.sin(t*0.85)*0.22;
-
-  // Camera micro drift
-  camera.position.x += (Math.sin(t*0.18)*0.06 - camera.position.x)*0.025;
-  camera.position.y += ((isMobile ? 0.15 : 0.12)+Math.sin(t*0.21)*0.025 - camera.position.y)*0.02;
-  camera.lookAt(0, 0.05, 0);
+  cam.position.x += (Math.sin(t*.17)*.05 - cam.position.x)*.022;
+  cam.position.y += (.12+Math.sin(t*.2)*.02 - cam.position.y)*.018;
+  cam.lookAt(0, .05, 0);
 
   composer.render();
 }
